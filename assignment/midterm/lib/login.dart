@@ -1,15 +1,35 @@
+// Copyright 2018-present the Flutter authors. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+import 'package:Shrine/sign_up.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget{
+
+class LoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState(); // 여기 들어오면 바로 _LoginState() 실행
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>{
-  Widget build(BuildContext context) { // 계속해서 그려줄거임
+class _LoginPageState extends State<LoginPage> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea( // MediaQuery로 디바이스 화면 면적을 계산해서 컨텐츠가 잘리거나 겹쳐지는 문제를 자동으로 잡아준다.
-        child: ListView( // 스크롤이 가능하게 하려고
+      body: SafeArea(
+        child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
             SizedBox(height: 80.0),
@@ -21,9 +41,50 @@ class _LoginPageState extends State<LoginPage>{
               ],
             ),
             SizedBox(height: 120.0),
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(
+                filled: true,
+                labelText: 'Username',
+              ),
+            ),
+            SizedBox(height: 12.0),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                filled: true,
+                labelText: 'Password',
+              ),
+              obscureText: true,
+            ),
+            ButtonBar(
+              children: <Widget>[
+                FlatButton(
+                  child: Text('CANCEL'),
+                  onPressed: () {
+                    _usernameController.clear();
+                    _passwordController.clear();
+                  },
+                ),
+                FlatButton(
+                  child: Text('Sign Up'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/signup');
+                  },
+                ),
+                RaisedButton(
+                  child: Text('NEXT'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+// TODO: Add AccentColorOverride (103)
