@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:ui';
+
 import 'package:Shrine/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,9 +26,9 @@ class HomePage extends StatelessWidget {
   // TODO: Add a variable for Category (104)
 
   List<Card> _buildGridCards(BuildContext context) {
-    List<Product> products = ProductsRepository.loadProducts(Category.all);
+    List<Hotel> hotels = ProductsRepository.loadHotels();
 
-    if (products == null || products.isEmpty) {
+    if (hotels == null || hotels.isEmpty) {
       return const <Card>[];
     }
 
@@ -34,7 +36,7 @@ class HomePage extends StatelessWidget {
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString());
 
-    return products.map((product) {
+    return hotels.map((product) {
       return Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -50,56 +52,77 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Container(
-                padding: EdgeInsets.all(5),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(12.0, 12.0, 12.0, 8.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: <Widget>[
                     Container(
-                      alignment: Alignment.bottomLeft,
-                      //padding: EdgeInsets.fromLTRB(35.0, 10, 35.0, 0),
-                      child: Icon(Icons.stars, color: Colors.yellow, size: 10),
-                    ),
-                    SizedBox(height: 5),
-                    Container(
-                      alignment: Alignment.bottomLeft,
-                      //padding: EdgeInsets.fromLTRB(35.0, 0, 35.0, 0),
-                      child: Text(
-                        product.name,
-                        style: TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.w800),
+                      padding: EdgeInsets.only(left: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Row(
+                            // Row to set stars
+                            children: <Widget>[
+                              for (var i = 0; i < product.stars; i++)
+                                IconTheme(
+                                  data: IconThemeData(color: Colors.yellow),
+                                  child: Icon(Icons.star, size: 10),
+                                ),
+                            ],
+                          ),
+                          Text(
+                            // Hotel name
+                            product.name,
+                            //overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            softWrap: true,
+                          ),
+                          SizedBox(height: 5.0),
+                        ],
                       ),
                     ),
                     Row(
+                      mainAxisSize: MainAxisSize.max,
                       children: <Widget>[
-                        Container(
-                         // padding: EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-                          child: Icon(
-                            Icons.location_on,
-                            size: 15,
-                            color: Colors.blue,
-                          ),
+                        Icon(Icons.location_on, color: Colors.blue, size: 12),
+                        SizedBox(
+                          width: 8,
                         ),
-                        Container(
+                        Flexible(
                           child: Text(
-                            formatter.format(product.price),
-                            style: TextStyle(fontSize: 7),
+                            product.location,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontSize: 8,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    ButtonBar(
-                      children: <Widget>[
-                        FlatButton(
-                          child: Text(
-                            'sad',
-                            style: TextStyle(fontSize: 10),
-                          ),
-                        ),
-                      ],
-                    )
+
                   ],
                 ),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+              child: ButtonBar(
+                children: <Widget>[
+                  FlatButton(
+                    child: Text('more'),
+                    textColor: Colors.blue,
+                    onPressed: () {
+                      print('goto more page');
+                    }
+                      ),
+                      ],
               ),
             ),
           ],
@@ -111,7 +134,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       drawer: BuildDrawer(),
       appBar: AppBar(
         title: Text('Main'),

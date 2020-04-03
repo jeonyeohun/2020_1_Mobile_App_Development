@@ -16,27 +16,34 @@ import 'package:flutter/foundation.dart';
 
 enum Category { all, accessories, clothing, home, }
 
-class Product {
-  const Product({
-    @required this.category,
+class Hotel {
+  const Hotel({
     @required this.id,
+    @required this.stars,
     @required this.isFeatured,
     @required this.name,
-    @required this.price,
-  })  : assert(category != null),
-        assert(id != null),
+    @required this.number,
+    @required this.description,
+    @required this.location,
+
+  })  : assert(id != null),
+        assert(stars != null),
         assert(isFeatured != null),
         assert(name != null),
-        assert(price != null);
+        assert(number != null),
+        assert(location != null),
+        assert(description != null);
 
-  final Category category;
   final int id;
   final bool isFeatured;
   final String name;
-  final int price;
+  final String description;
+  final String number;
+  final int stars;
+  final String location;
 
   String get assetName => '$id-0.jpg';
-  String get assetPackage => 'shrine_images';
+  String get assetPackage => 'hotels';
 
   @override
   String toString() => "$name (id=$id)";

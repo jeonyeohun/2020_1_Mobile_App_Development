@@ -18,23 +18,21 @@ import 'package:intl/intl.dart';
 import '../model/product.dart';
 
 class ProductCard extends StatelessWidget {
-  ProductCard({this.imageAspectRatio: 33 / 49, this.product})
+  ProductCard({this.imageAspectRatio: 33 / 49, this.hotel})
       : assert(imageAspectRatio == null || imageAspectRatio > 0);
 
   final double imageAspectRatio;
-  final Product product;
+  final Hotel hotel;
 
   static final kTextBoxHeight = 65.0;
 
   @override
   Widget build(BuildContext context) {
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-        decimalDigits: 0, locale: Localizations.localeOf(context).toString());
     final ThemeData theme = Theme.of(context);
 
     final imageWidget = Image.asset(
-      product.assetName,
-      package: product.assetPackage,
+      hotel.assetName,
+      package: hotel.assetPackage,
       fit: BoxFit.cover,
     );
 
@@ -53,18 +51,16 @@ class ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              // TODO(larche): Make headline6 when available
               Text(
-                product == null ? '' : product.name,
+                hotel == null ? '' : hotel.name,
                 style: theme.textTheme.button,
                 softWrap: false,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               ),
               SizedBox(height: 4.0),
-              // TODO(larche): Make subtitle2 when available
               Text(
-                product == null ? '' : formatter.format(product.price),
+                hotel == null ? '' : hotel.description,
                 style: theme.textTheme.caption,
               ),
             ],

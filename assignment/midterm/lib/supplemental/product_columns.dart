@@ -23,7 +23,7 @@ class TwoProductCardColumn extends StatelessWidget {
     this.top,
   }) : assert(bottom != null);
 
-  final Product bottom, top;
+  final Hotel bottom, top;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class TwoProductCardColumn extends StatelessWidget {
             child: top != null
                 ? ProductCard(
                     imageAspectRatio: imageAspectRatio,
-                    product: top,
+                    hotel: top,
                   )
                 : SizedBox(
                     height: heightOfCards,
@@ -57,7 +57,7 @@ class TwoProductCardColumn extends StatelessWidget {
             padding: EdgeInsetsDirectional.only(end: 28.0),
             child: ProductCard(
               imageAspectRatio: imageAspectRatio,
-              product: bottom,
+              hotel: bottom,
             ),
           ),
         ],
@@ -67,9 +67,9 @@ class TwoProductCardColumn extends StatelessWidget {
 }
 
 class OneProductCardColumn extends StatelessWidget {
-  OneProductCardColumn({this.product});
+  OneProductCardColumn({this.hotel});
 
-  final Product product;
+  final Hotel hotel;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class OneProductCardColumn extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         ProductCard(
-          product: product,
+          hotel: hotel,
         ),
         SizedBox(
           height: 40.0,

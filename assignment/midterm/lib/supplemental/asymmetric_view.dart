@@ -18,7 +18,7 @@ import '../model/product.dart';
 import 'product_columns.dart';
 
 class AsymmetricView extends StatelessWidget {
-  final List<Product> products;
+  final List<Hotel> products;
 
   AsymmetricView({Key key, this.products});
 
@@ -50,7 +50,7 @@ class AsymmetricView extends StatelessWidget {
       } else {
         /// Odd cases
         column = OneProductCardColumn(
-          product: products[_oddCasesIndex(index)],
+          hotel: products[_oddCasesIndex(index)],
         );
       }
       return Container(
