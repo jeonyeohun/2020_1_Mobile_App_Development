@@ -15,6 +15,8 @@
 import 'package:Shrine/details.dart';
 import 'package:Shrine/favorites.dart';
 import 'package:Shrine/search.dart';
+import 'package:Shrine/slider.dart';
+import 'package:Shrine/webview.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -33,8 +35,10 @@ class ShrineApp extends StatelessWidget {
       routes: {
         '/signup': (context)=>signUpPage(),
         '/home': (context)=>HomePage(),
-        '/favorites': (context)=>FavoriteWidget(null),
+        '/favorites': (context)=>FavoritePage(),
         '/search': (context)=>SearchPage(),
+        '/webview': (context)=>MyWeb(),
+        '/mypage' : (context)=>CarouselDemo(),
       },
       onGenerateRoute: _getRoute,
     );

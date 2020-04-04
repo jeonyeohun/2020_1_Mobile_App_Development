@@ -1,6 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+final Set<String> _saved = Set<String>();
+
+class FavoritePage extends StatefulWidget {
+  _FavoritePageState createState() => _FavoritePageState();
+}
+
+class _FavoritePageState extends State<FavoritePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Favorite Hotels'),
+        ),
+        body: ListView.builder(
+          itemCount: _saved.length,
+          itemBuilder: (context, index) {
+            final item = _saved.elementAt(index);
+
+            return Dismissible(
+              key: Key(item),
+              onDismissed: (direction) {
+                setState(() {
+                  _saved.remove(item);
+                  print(_saved);
+                });
+              },
+              background: Container(
+                color: Colors.redAccent,
+              ),
+              child: ListTile(title: Text('$item')),
+            );
+          },
+        ));
+  }
+}
 
 class FavoriteWidget extends StatefulWidget {
   String name;
@@ -9,12 +44,15 @@ class FavoriteWidget extends StatefulWidget {
   }
   @override
   _FavoriteWidgetState createState() => _FavoriteWidgetState(name);
+
+  static Set<String> getSaved(){
+    return _saved;
+  }
 }
 
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
   String hotelName;
-  Set<String> _saved = Set<String>();
 
   _FavoriteWidgetState(String name) {
     if (_saved.contains(name)) {
@@ -53,4 +91,6 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
       ],
     );
   }
+
+
 }

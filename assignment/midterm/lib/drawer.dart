@@ -37,7 +37,7 @@ class BuildDrawer extends StatelessWidget {
           leading: Icon(Icons.language),
           title: Text('Website'),
           onTap: () {
-            Navigator.pushNamed(context, '/website');
+            Navigator.pushNamed(context, '/webview');
           },
         ),
         ListTile(

@@ -167,16 +167,25 @@ class _SearchPageState extends State<SearchPage> {
                             ),
                             actions: <Widget>[
                               Container(
-                                child: Row(
+                                child: ButtonBar(
+                                  mainAxisSize: MainAxisSize.max,
+                                  alignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     RaisedButton(
-                                      child: Text('Search'),
+                                      color: Colors.blue,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Text('Search', style: TextStyle(color: Colors.white),),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),
                                     RaisedButton(
-                                      child: Text('Cancel'),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                      ),
+                                      child: Text('Cancel', style: TextStyle(color: Colors.white),),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
