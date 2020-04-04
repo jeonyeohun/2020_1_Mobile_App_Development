@@ -32,7 +32,6 @@ class ProductCard extends StatelessWidget {
 
     final imageWidget = Image.asset(
       hotel.assetName,
-      package: hotel.assetPackage,
       fit: BoxFit.cover,
     );
 

@@ -14,13 +14,10 @@
 
 import 'package:flutter/foundation.dart';
 
-enum Category { all, accessories, clothing, home, }
-
 class Hotel {
   const Hotel({
     @required this.id,
     @required this.stars,
-    @required this.isFeatured,
     @required this.name,
     @required this.number,
     @required this.description,
@@ -28,22 +25,20 @@ class Hotel {
 
   })  : assert(id != null),
         assert(stars != null),
-        assert(isFeatured != null),
         assert(name != null),
         assert(number != null),
         assert(location != null),
         assert(description != null);
 
   final int id;
-  final bool isFeatured;
   final String name;
   final String description;
   final String number;
   final int stars;
   final String location;
 
-  String get assetName => '$id-0.jpg';
-  String get assetPackage => 'hotels';
+
+  String get assetName => 'assets/images/$id-0.jpg';
 
   @override
   String toString() => "$name (id=$id)";

@@ -17,13 +17,14 @@ import 'dart:ui';
 import 'package:Shrine/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'details.dart';
 import 'drawer.dart';
 
 import 'model/products_repository.dart';
 import 'model/product.dart';
 
 class HomePage extends StatelessWidget {
-  // TODO: Add a variable for Category (104)
+  Set<String> _saved = Set<String>();
 
   List<Card> _buildGridCards(BuildContext context) {
     List<Hotel> hotels = ProductsRepository.loadHotels();
@@ -32,11 +33,9 @@ class HomePage extends StatelessWidget {
       return const <Card>[];
     }
 
-    final ThemeData theme = Theme.of(context);
-    final NumberFormat formatter = NumberFormat.simpleCurrency(
-        locale: Localizations.localeOf(context).toString());
-
-    return hotels.map((product) {
+    return hotels.asMap().entries.map((entry) {
+      Hotel hotel = entry.value;
+      int idx = entry.key;
       return Card(
         clipBehavior: Clip.antiAlias,
         child: Column(
@@ -45,10 +44,12 @@ class HomePage extends StatelessWidget {
           children: <Widget>[
             AspectRatio(
               aspectRatio: 18 / 11,
-              child: Image.asset(
-                product.assetName,
-                package: product.assetPackage,
-                fit: BoxFit.fitWidth,
+              child: Hero(
+                tag: hotel.assetName,
+                child: Image.asset(
+                  hotel.assetName,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
             Expanded(
@@ -64,65 +65,77 @@ class HomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.max,
                         children: <Widget>[
-                          Row(
-                            // Row to set stars
-                            children: <Widget>[
-                              for (var i = 0; i < product.stars; i++)
-                                IconTheme(
-                                  data: IconThemeData(color: Colors.yellow),
-                                  child: Icon(Icons.star, size: 10),
-                                ),
-                            ],
-                          ),
-                          Text(
-                            // Hotel name
-                            product.name,
-                            //overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            softWrap: true,
+                          Container(
+                            child: Row(
+                                // Row to set stars
+                                children: drawStars(hotel.stars)),
                           ),
                           SizedBox(height: 5.0),
+                          Container(
+                            child: Text(
+                              // Hotel name
+                              hotel.name,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              softWrap: true,
+                            ),
+                          ),
+                          SizedBox(height: 2.0),
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Icon(Icons.location_on, color: Colors.blue, size: 12),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Flexible(
-                          child: Text(
-                            product.location,
-                            softWrap: true,
-                            style: TextStyle(
-                              fontSize: 8,
+                    Container(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(Icons.location_on, color: Colors.blue, size: 15),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Flexible(
+                            child: Text(
+                              hotel.location,
+                              softWrap: true,
+
+                              style: TextStyle(
+                                fontSize: 8,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-
                   ],
                 ),
               ),
             ),
-            SizedBox(
-              height: 30,
-              child: ButtonBar(
-                children: <Widget>[
-                  FlatButton(
-                    child: Text('more'),
+            Container(
+              alignment: Alignment.topRight,
+              padding: EdgeInsets.only(bottom: 5),
+              child: SizedBox(
+                height: 15,
+                width: 60,
+                child: FlatButton(
+                    child: Text(
+                      'more',
+                      style: TextStyle(fontSize: 10),
+                    ),
                     textColor: Colors.blue,
                     onPressed: () {
-                      print('goto more page');
-                    }
-                      ),
-                      ],
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailPage(),
+                          settings: RouteSettings(
+                            arguments: idx,
+                          ),
+                        ),
+                      );
+                    }),
               ),
             ),
           ],
@@ -153,7 +166,7 @@ class HomePage extends StatelessWidget {
               semanticLabel: 'Website',
             ),
             onPressed: () {
-              Navigator.pushNamed(context, '/website');
+              Navigator.pushNamed(context, '/webview');
             },
           ),
         ],
@@ -173,5 +186,16 @@ class HomePage extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,
     );
+
+  }
+
+  List<Widget> drawStars(int n) {
+    return <Widget>[
+      for (var i = 0; i < n; i++)
+        IconTheme(
+          data: IconThemeData(color: Colors.yellow),
+          child: Icon(Icons.star, size: 12),
+        ),
+    ];
   }
 }

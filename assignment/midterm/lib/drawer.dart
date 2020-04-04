@@ -30,7 +30,7 @@ class BuildDrawer extends StatelessWidget {
           leading: Icon(Icons.location_city),
           title: Text('Favorite Hotel'),
           onTap: () {
-            Navigator.pushNamed(context, '/favhotel');
+            Navigator.pushNamed(context, '/favorites');
           },
         ),
         ListTile(

@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:Shrine/details.dart';
+import 'package:Shrine/favorites.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -25,18 +27,14 @@ class ShrineApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shrine',
-      // TODO: Change home: to a Backdrop with a HomePage frontLayer (104)
       home: HomePage(),
-      // TODO: Make currentCategory field take _currentCategory (104)
-      // TODO: Pass _currentCategory for frontLayer (104)
-      // TODO: Change backLayer field value to CategoryMenuPage (104)
       initialRoute: '/login',
       routes: {
         '/signup': (context)=>signUpPage(),
         '/home': (context)=>HomePage(),
+        '/favorites': (context)=>FavoriteWidget(null),
       },
       onGenerateRoute: _getRoute,
-      // TODO: Add a theme (103)
     );
   }
 
