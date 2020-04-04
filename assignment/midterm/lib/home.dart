@@ -16,7 +16,6 @@ import 'dart:ui';
 
 import 'package:Shrine/drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'details.dart';
 import 'drawer.dart';
 
@@ -24,7 +23,6 @@ import 'model/products_repository.dart';
 import 'model/product.dart';
 
 class HomePage extends StatelessWidget {
-  Set<String> _saved = Set<String>();
 
   List<Card> _buildGridCards(BuildContext context) {
     List<Hotel> hotels = ProductsRepository.loadHotels();

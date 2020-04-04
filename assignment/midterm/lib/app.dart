@@ -14,6 +14,7 @@
 
 import 'package:Shrine/details.dart';
 import 'package:Shrine/favorites.dart';
+import 'package:Shrine/search.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -33,6 +34,7 @@ class ShrineApp extends StatelessWidget {
         '/signup': (context)=>signUpPage(),
         '/home': (context)=>HomePage(),
         '/favorites': (context)=>FavoriteWidget(null),
+        '/search': (context)=>SearchPage(),
       },
       onGenerateRoute: _getRoute,
     );

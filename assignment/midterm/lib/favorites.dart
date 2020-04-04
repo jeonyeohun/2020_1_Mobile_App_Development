@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Set<String> _saved = Set<String>();
 
-// ignore: must_be_immutable
 class FavoriteWidget extends StatefulWidget {
   String name;
   FavoriteWidget(String name) {
@@ -16,6 +14,7 @@ class FavoriteWidget extends StatefulWidget {
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   bool _isFavorited = false;
   String hotelName;
+  Set<String> _saved = Set<String>();
 
   _FavoriteWidgetState(String name) {
     if (_saved.contains(name)) {
