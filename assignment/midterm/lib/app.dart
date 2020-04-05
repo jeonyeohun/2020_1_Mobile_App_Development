@@ -37,7 +37,7 @@ class ShrineApp extends StatelessWidget {
         '/home': (context)=>HomePage(),
         '/favorites': (context)=>FavoritePage(),
         '/search': (context)=>SearchPage(),
-        '/webview': (context)=>MyWeb(),
+        '/webview': (context)=>WebViewExample(),
         '/mypage' : (context)=>CarouselDemo(),
       },
       onGenerateRoute: _getRoute,

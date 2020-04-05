@@ -35,15 +35,6 @@ final List child = map<Widget>(
                   end: Alignment.topCenter,
                 ),
               ),
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-              child: Text(
-                'asda',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
             ),
           ),
         ]),
@@ -61,58 +52,15 @@ List<T> map<T>(List list, Function handler) {
   return result;
 }
 
-class CarouselWithIndicator extends StatefulWidget {
-  @override
-  _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
-}
-
-class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
-  int _current = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      CarouselSlider(
-        items: child,
-        autoPlay: true,
-        enlargeCenterPage: true,
-        aspectRatio: 2.0,
-        onPageChanged: (index) {
-          setState(() {
-            _current = index;
-          });
-        },
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: map<Widget>(
-          imgList,
-          (index, url) {
-            return Container(
-              width: 8.0,
-              height: 8.0,
-              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: _current == index
-                      ? Color.fromRGBO(0, 0, 0, 0.9)
-                      : Color.fromRGBO(0, 0, 0, 0.4)),
-            );
-          },
-        ),
-      ),
-    ]);
-  }
-}
-
 class CarouselDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Auto playing carousel
 
-    Set<String> saved = FavoriteWidget.getSaved();
+
     List<Hotel> hotels = ProductsRepository.loadHotels();
 
+    Set<String> saved = FavoriteInfo().get();
     hotels.forEach((item) {
       if (saved.contains(item.name)) {
         if (!imgList.contains(item.assetName)) imgList.add(item.assetName);
@@ -129,6 +77,7 @@ class CarouselDemo extends StatelessWidget {
         (assetName) {
           int idx;
           String name;
+
           hotels.forEach((item) {
             if (assetName.compareTo(item.assetName) == 0) {
               idx = item.id;

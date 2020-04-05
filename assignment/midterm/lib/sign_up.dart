@@ -39,7 +39,7 @@ class SignUpFormState extends State<SignUpForm>{
               return null;
             },
             decoration: InputDecoration(
-              hintText: 'Username',
+              labelText: 'Username',
             ),
           ),
           SizedBox(height: 20),
@@ -52,7 +52,7 @@ class SignUpFormState extends State<SignUpForm>{
               return null;
             },
             decoration: InputDecoration(
-              hintText: 'Password',
+              labelText: 'Password',
             ),
           ),
           SizedBox(height: 20),
@@ -65,7 +65,7 @@ class SignUpFormState extends State<SignUpForm>{
               return null;
             },
             decoration: InputDecoration(
-              hintText: 'Confirm Password',
+              labelText: 'Confirm Password',
             ),
           ),
           SizedBox(height: 20),
@@ -77,14 +77,14 @@ class SignUpFormState extends State<SignUpForm>{
               return null;
             },
             decoration: InputDecoration(
-              hintText: 'Email Address',
+              labelText: 'Email Address',
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: ButtonBar(
               children: <Widget>[
-                FlatButton(
+                RaisedButton(
                   padding: const EdgeInsets.all(16.0),
                   onPressed: () {
                     // Validate returns true if the form is valid, or false

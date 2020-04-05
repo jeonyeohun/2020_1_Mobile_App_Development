@@ -4,10 +4,10 @@ class BuildDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: ListView(
-      padding: EdgeInsets.zero,
       children: <Widget>[
         DrawerHeader(
-          child: Text('Pages'),
+          padding: EdgeInsets.only(top: 90, left: 16),
+          child: Text('Pages', style: TextStyle(fontSize: 25, color: Colors.white),),
           decoration: BoxDecoration(
             color: Colors.blue,
           ),

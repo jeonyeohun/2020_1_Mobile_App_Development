@@ -1,13 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-final Set<String> _saved = Set<String>();
 
 class FavoritePage extends StatefulWidget {
   _FavoritePageState createState() => _FavoritePageState();
 }
 
 class _FavoritePageState extends State<FavoritePage> {
+
+  Set<String> _saved = _FavoriteWidgetState._saved;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,12 +46,10 @@ class FavoriteWidget extends StatefulWidget {
   @override
   _FavoriteWidgetState createState() => _FavoriteWidgetState(name);
 
-  static Set<String> getSaved(){
-    return _saved;
-  }
 }
 
 class _FavoriteWidgetState extends State<FavoriteWidget> {
+  static Set<String> _saved = Set<String>();
   bool _isFavorited = false;
   String hotelName;
 
@@ -65,10 +64,15 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
     setState(() {
       if (_isFavorited) {
         _isFavorited = false;
-        _saved.remove(hotelName);
+        setState(() {
+          _saved.remove(hotelName);
+        });
+
       } else {
         _isFavorited = true;
-        _saved.add(hotelName);
+        setState(() {
+          _saved.add(hotelName);
+        });
       }
     });
     print(_saved);
@@ -91,6 +95,10 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
       ],
     );
   }
+}
 
-
+class FavoriteInfo {
+  Set<String> get(){
+    return _FavoriteWidgetState._saved;
+  }
 }

@@ -92,13 +92,12 @@ class HomePage extends StatelessWidget {
                         children: <Widget>[
                           Icon(Icons.location_on, color: Colors.blue, size: 15),
                           SizedBox(
-                            width: 8,
+                            width: 5,
                           ),
                           Flexible(
                             child: Text(
                               hotel.location,
                               softWrap: true,
-
                               style: TextStyle(
                                 fontSize: 8,
                               ),

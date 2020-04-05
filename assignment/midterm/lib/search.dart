@@ -110,11 +110,10 @@ class _SearchPageState extends State<SearchPage> {
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Column(
+                                      Row(
                                         children: <Widget>[
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: <Widget>[
                                               Text(
                                                 'IN',
@@ -123,30 +122,27 @@ class _SearchPageState extends State<SearchPage> {
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
-                                              SizedBox(
-                                                width: 10,
+                                              Text(
+                                                'OUT',
+                                                style: TextStyle(
+                                                    fontSize: 9,
+                                                    fontWeight:
+                                                    FontWeight.bold),
                                               ),
+
+
+                                            ],
+                                          ),
+                                          SizedBox(width: 10,),
+                                          Column(
+                                            children: <Widget>[
                                               Text(
                                                 checkInDate,
                                                 style: TextStyle(
                                                     fontSize: 9,
                                                     color: Colors.grey,
                                                     fontWeight:
-                                                        FontWeight.bold),
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            children: <Widget>[
-                                              Text(
-                                                'OUT',
-                                                style: TextStyle(
-                                                    fontSize: 9,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                width: 10,
+                                                    FontWeight.bold),
                                               ),
                                               Text(
                                                 checkOutDate,
@@ -176,7 +172,10 @@ class _SearchPageState extends State<SearchPage> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
-                                      child: Text('Search', style: TextStyle(color: Colors.white),),
+                                      child: Text(
+                                        'Search',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
@@ -185,7 +184,10 @@ class _SearchPageState extends State<SearchPage> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
-                                      child: Text('Cancel', style: TextStyle(color: Colors.white),),
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
