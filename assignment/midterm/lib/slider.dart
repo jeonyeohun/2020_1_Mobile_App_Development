@@ -7,41 +7,7 @@ import 'model/products_repository.dart';
 
 final List<String> imgList = [];
 
-void main() => runApp(CarouselDemo());
-
 final Widget placeholder = Container(color: Colors.grey);
-
-final List child = map<Widget>(
-  imgList,
-  (index, i) {
-    return Container(
-      margin: EdgeInsets.all(5.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-        child: Stack(children: <Widget>[
-          Image.asset(i, fit: BoxFit.cover, width: 1000.0),
-          Positioned(
-            bottom: 0.0,
-            left: 0.0,
-            right: 0.0,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(200, 0, 0, 0),
-                    Color.fromARGB(0, 0, 0, 0)
-                  ],
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                ),
-              ),
-            ),
-          ),
-        ]),
-      ),
-    );
-  },
-).toList();
 
 List<T> map<T>(List list, Function handler) {
   List<T> result = [];
@@ -52,21 +18,41 @@ List<T> map<T>(List list, Function handler) {
   return result;
 }
 
+class nofavPage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'No Saved Hotel!',
+        ),
+      ),
+      body: Container(
+        alignment: Alignment.center,
+        child: Text(
+          'Please Click on Heart Icon to Save Your Favorite Hotels!'
+        )
+      ),
+    );
+  }
+}
+
 class CarouselDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Auto playing carousel
 
-
     List<Hotel> hotels = ProductsRepository.loadHotels();
-
     Set<String> saved = FavoriteInfo().get();
+
     hotels.forEach((item) {
       if (saved.contains(item.name)) {
         if (!imgList.contains(item.assetName)) imgList.add(item.assetName);
       } else
         imgList.remove(item.assetName);
     });
+
 
     final CarouselSlider autoPlayDemo = CarouselSlider(
       viewportFraction: 0.9,
@@ -77,7 +63,6 @@ class CarouselDemo extends StatelessWidget {
         (assetName) {
           int idx;
           String name;
-
           hotels.forEach((item) {
             if (assetName.compareTo(item.assetName) == 0) {
               idx = item.id;

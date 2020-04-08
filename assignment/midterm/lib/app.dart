@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:Shrine/details.dart';
 import 'package:Shrine/favorites.dart';
 import 'package:Shrine/search.dart';
 import 'package:Shrine/slider.dart';
@@ -39,6 +38,7 @@ class ShrineApp extends StatelessWidget {
         '/search': (context)=>SearchPage(),
         '/webview': (context)=>WebViewExample(),
         '/mypage' : (context)=>CarouselDemo(),
+        '/emptyFavorite' : (context)=>nofavPage(),
       },
       onGenerateRoute: _getRoute,
     );

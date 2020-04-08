@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'favorites.dart';
+
 class BuildDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
@@ -44,7 +46,11 @@ class BuildDrawer extends StatelessWidget {
           leading: Icon(Icons.person),
           title: Text('My Page'),
           onTap: () {
-            Navigator.pushNamed(context, '/mypage');
+            print(FavoriteInfo().get());
+            if(FavoriteInfo().get().isNotEmpty)
+              Navigator.pushNamed(context, '/mypage');
+            else
+              Navigator.pushNamed(context, '/emptyFavorite');
           },
         ),
       ],

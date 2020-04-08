@@ -39,7 +39,7 @@ class _WebViewExampleState extends State<WebViewExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter WebView example'),
+        title: const Text('HisNet'),
         // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
         actions: <Widget>[
           NavigationControls(_controller.future),
@@ -55,7 +55,6 @@ class _WebViewExampleState extends State<WebViewExample> {
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
           },
-          // TODO(iskakaushik): Remove this when collection literals makes it to stable.
           // ignore: prefer_collection_literals
           javascriptChannels: <JavascriptChannel>[
             _toasterJavascriptChannel(context),

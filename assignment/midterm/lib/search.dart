@@ -14,8 +14,9 @@ class _SearchPageState extends State<SearchPage> {
   Map<String, bool> checkBoxState = {
     'No Kids Zone': false,
     'Pet-Friendly': false,
-    'Feee Breakfast': false,
-    'Free Wifi': false,
+    'Free Breakfast': false,
+    'Free '
+        'Wifi': false,
     'Electric Car Charging': false
   };
 
@@ -72,132 +73,7 @@ class _SearchPageState extends State<SearchPage> {
                         context: context,
                         barrierDismissible: false,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Please check your choice :)"),
-                            content: SingleChildScrollView(
-                              padding: EdgeInsets.fromLTRB(16, 32, 16, 32),
-                              child: ListBody(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.wifi,
-                                        color: Colors.blueAccent,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          checkedInfoStr(),
-                                          style: TextStyle(
-                                              fontSize: 9,
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.calendar_view_day,
-                                        color: Colors.blueAccent,
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text(
-                                                'IN',
-                                                style: TextStyle(
-                                                    fontSize: 9,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              Text(
-                                                'OUT',
-                                                style: TextStyle(
-                                                    fontSize: 9,
-                                                    fontWeight:
-                                                    FontWeight.bold),
-                                              ),
-
-
-                                            ],
-                                          ),
-                                          SizedBox(width: 10,),
-                                          Column(
-                                            children: <Widget>[
-                                              Text(
-                                                checkInDate,
-                                                style: TextStyle(
-                                                    fontSize: 9,
-                                                    color: Colors.grey,
-                                                    fontWeight:
-                                                    FontWeight.bold),
-                                              ),
-                                              Text(
-                                                checkOutDate,
-                                                style: TextStyle(
-                                                    fontSize: 9,
-                                                    color: Colors.grey,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              Container(
-                                child: ButtonBar(
-                                  mainAxisSize: MainAxisSize.max,
-                                  alignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    RaisedButton(
-                                      color: Colors.blue,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Text(
-                                        'Search',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    RaisedButton(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Text(
-                                        'Cancel',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        },
+                          return _buildDialog();},
                       );
                     },
                   ),
@@ -369,5 +245,134 @@ class _SearchPageState extends State<SearchPage> {
           ],
         ),
     ];
+  }
+
+  AlertDialog _buildDialog(){
+    return AlertDialog(
+      title: Text("Please check your choice :)"),
+      content: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(16, 32, 16, 32),
+        child: ListBody(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Icon(
+                  Icons.wifi,
+                  color: Colors.blueAccent,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Flexible(
+                  child: Text(
+                    checkedInfoStr(),
+                    style: TextStyle(
+                        fontSize: 9,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              children: <Widget>[
+                Icon(
+                  Icons.calendar_view_day,
+                  color: Colors.blueAccent,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Row(
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'IN',
+                          style: TextStyle(
+                              fontSize: 9,
+                              fontWeight:
+                              FontWeight.bold),
+                        ),
+                        Text(
+                          'OUT',
+                          style: TextStyle(
+                              fontSize: 9,
+                              fontWeight:
+                              FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text(
+                          checkInDate,
+                          style: TextStyle(
+                              fontSize: 9,
+                              color: Colors.grey,
+                              fontWeight:
+                              FontWeight.bold),
+                        ),
+                        Text(
+                          checkOutDate,
+                          style: TextStyle(
+                              fontSize: 9,
+                              color: Colors.grey,
+                              fontWeight:
+                              FontWeight.bold),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        Container(
+          child: ButtonBar(
+            mainAxisSize: MainAxisSize.max,
+            alignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                color: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  'Search',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
