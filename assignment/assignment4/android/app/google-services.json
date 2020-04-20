@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "320520008445",
+    "firebase_url": "https://baby-names-app-db-6b4bd.firebaseio.com",
+    "project_id": "baby-names-app-db-6b4bd",
+    "storage_bucket": "baby-names-app-db-6b4bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:320520008445:android:e3dc38d0031c66f9d0c494",
+        "android_client_info": {
+          "package_name": "edu.handong.baby.names"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "320520008445-3n8e3gl8hjib7nkd20c724uchicc8r3o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs147ZXt4UDnZz6szg9zxw4KLRTLvf_eU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "320520008445-3n8e3gl8hjib7nkd20c724uchicc8r3o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "320520008445-1clv844o17mf0c60451r8r5mif6d0h4m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "edu.handong.baby.names"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
