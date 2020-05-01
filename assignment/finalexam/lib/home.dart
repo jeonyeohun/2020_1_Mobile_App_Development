@@ -12,63 +12,87 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'additem.dart';
+import 'detail.dart';
+import 'package:Shrine/record.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'model/products_repository.dart';
-import 'model/product.dart';
-
 class HomePage extends StatelessWidget {
-  List<Card> _buildGridCards(BuildContext context) {
-    List<Product> products = ProductsRepository.loadProducts(Category.all);
-
-    if (products == null || products.isEmpty) {
-      return const <Card>[];
-    }
+  Card _buildGridCards(BuildContext context, DocumentSnapshot data) {
+    final record = Record.fromSnapshot(data);
 
     final ThemeData theme = Theme.of(context);
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString());
 
-    return products.map((product) {
-      return Card(
-        clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            AspectRatio(
-              aspectRatio: 18 / 11,
-              child: Image.asset(
-                product.assetName,
-                package: product.assetPackage,
-                fit: BoxFit.fitWidth,
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: 18 / 11,
+            child: Image.network(
+              record.imageURL,
+              fit: BoxFit.fitWidth,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(16.0, 12.0, 0, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                    record.name,
+                    style: theme.textTheme.body2,
+                    maxLines: 1,
+                  ),
+                  SizedBox(height: 3.0),
+                  Text(
+                    formatter.format(record.price),
+                    style: TextStyle(fontSize: 10),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      SizedBox(
+                          height: 30,
+                          width: 60,
+                          child: FlatButton(
+                            child: Text(
+                              'more',
+                              style: TextStyle(
+                                  fontSize: 10, color: Colors.blueAccent),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      DetailPage(record.reference.documentID)));
+                            },
+                          ))
+                    ],
+                  )
+                ],
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      product.name,
-                      style: theme.textTheme.title,
-                      maxLines: 1,
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      formatter.format(product.price),
-                      style: theme.textTheme.body2,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }).toList();
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) {
+    return Container(
+      child: GridView.count(
+          crossAxisCount: 2,
+          padding: EdgeInsets.all(16.0),
+          childAspectRatio: 8.0 / 9.0,
+          children:
+              snapshot.map((data) => _buildGridCards(context, data)).toList()),
+    );
   }
 
   @override
@@ -91,20 +115,17 @@ class HomePage extends StatelessWidget {
               Icons.add,
             ),
             onPressed: () {
-              Navigator.pushNamed(
-                context, '/add');
+              Navigator.pushNamed(context, '/add');
             },
           ),
         ],
       ),
-      body: Container(
-          child: GridView.count(
-            crossAxisCount: 2,
-            padding: EdgeInsets.all(16.0),
-            childAspectRatio: 8.0 / 9.0,
-            children: _buildGridCards(context),
-          ),
-      ),
+      body: StreamBuilder<QuerySnapshot>(
+          stream: Firestore.instance.collection('items').snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return LinearProgressIndicator();
+            return _buildGrid(context, snapshot.data.documents);
+          }),
       resizeToAvoidBottomInset: false,
     );
   }

@@ -10,10 +10,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
 class AddItemPage extends StatelessWidget {
-  TextEditingController titleText = TextEditingController();
-  TextEditingController priceText = TextEditingController();
-  TextEditingController desText = TextEditingController();
-  String uid;
+  final TextEditingController titleText = TextEditingController();
+  final TextEditingController priceText = TextEditingController();
+  final TextEditingController desText = TextEditingController();
   final String uuid = Uuid().v1();
 
   @override
@@ -38,10 +37,6 @@ class AddItemPage extends StatelessWidget {
               child: Text('Save'),
               onPressed: () {
                 createItem();
-                uploadImage();
-                titleText.clear();
-                priceText.clear();
-                desText.clear();
                 Navigator.pop(context);
               },
             ),
@@ -77,27 +72,34 @@ class AddItemPage extends StatelessWidget {
 
   void createItem() async {
     final FirebaseUser userID = await FirebaseAuth.instance.currentUser();
-    uid = userID.uid;
+    String uid = userID.uid;
+    String imgURL = await uploadImage();
 
     Firestore.instance.collection('items').add({
       'name': titleText.text,
       'description': desText.text,
-      'price': priceText.text,
+      'price': int.parse(priceText.text),
       'votes': 0,
       'uid': uid,
       'createdTime': FieldValue.serverTimestamp(),
-      'ModTime' : FieldValue.serverTimestamp(),
+      'modTime' : FieldValue.serverTimestamp(),
+      'imageURL' : imgURL,
       'imageID' : uuid,
+      'voteList' : [],
     });
   }
 
-  Future<void> uploadImage() async {
+  Future<String> uploadImage() async {
     File img = _SetImageState._image;
-    StorageReference ref =
-        FirebaseStorage.instance.ref().child(uuid).child('image.jpg');
-    ref.putFile(img);
+    if (img != null) {
+      StorageReference ref =
+      FirebaseStorage.instance.ref().child(uuid).child('image.jpg');
+      StorageUploadTask uploadTask = ref.putFile(img);
+      var url  = await (await uploadTask.onComplete).ref.getDownloadURL();
+      return url.toString();
+    }
+    return _SetImageState.defaultImgURL;
   }
-
 
 }
 
@@ -106,7 +108,10 @@ class SetImage extends StatefulWidget {
 }
 
 class _SetImageState extends State<SetImage> {
+  static int init = 0;
   static File _image;
+  static String defaultImgURL = 'http://handong.edu/site/handong/res/img/logo.png';
+
   getGalleryImage() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
@@ -114,11 +119,9 @@ class _SetImageState extends State<SetImage> {
     });
   }
 
-  getCameraImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _image = image;
-    });
+  void dispose(){
+    _image = null;
+    super.dispose();
   }
 
   @override
@@ -129,7 +132,7 @@ class _SetImageState extends State<SetImage> {
           height: 250,
           child: _image == null
             ? Image.network(
-                'http://handong.edu/site/handong/res/img/logo.png',
+                defaultImgURL,
                 fit: BoxFit.scaleDown,
               )
             : Image.file(_image),
