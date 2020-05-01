@@ -84,16 +84,18 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) {
-    if (snapshot.isEmpty) return Scaffold(
-      body: Container(
+    if (snapshot.isEmpty)
+      return Scaffold(
+          body: Container(
         alignment: Alignment.center,
         child: Text('No Item!'),
-      )
-    );
-    int getPrice(DocumentSnapshot data){
+      ));
+    int getPrice(DocumentSnapshot data) {
       return data.data['price'];
     }
-    snapshot.sort((a, b)=>getPrice(a).compareTo(getPrice(b)));
+
+    if (!DropdownMenu._isAsc)
+      snapshot.sort((a, b) => getPrice(a).compareTo(getPrice(b)));
 
     return Column(
       children: <Widget>[
@@ -103,7 +105,8 @@ class HomePage extends StatelessWidget {
               crossAxisCount: 2,
               padding: EdgeInsets.all(16.0),
               childAspectRatio: 8.0 / 9.0,
-              children: snapshot.map((data) => _buildGridCards(context, data))
+              children: snapshot
+                  .map((data) => _buildGridCards(context, data))
                   .toList()),
         ),
       ],
@@ -147,6 +150,7 @@ class HomePage extends StatelessWidget {
 }
 
 class DropdownMenu extends StatefulWidget {
+  static bool _isAsc = true;
   _DropdownMenuState createState() => _DropdownMenuState();
 }
 
@@ -165,7 +169,13 @@ class _DropdownMenuState extends State<DropdownMenu> {
         }).toList(),
         onChanged: (value) {
           setState(() {
-            this.value = value;
+            if (value == 'acsending') {
+              DropdownMenu._isAsc = true;
+              this.value = value;
+            } else {
+              DropdownMenu._isAsc = false;
+              this.value = value;
+            }
           });
         },
       ),
