@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'mod.dart';
 
+String defaultImg = 'http://handong.edu/site/handong/res/img/logo.png';
+
 class DetailPage extends StatefulWidget {
   final String docID;
   const DetailPage(this.docID);
@@ -41,10 +43,13 @@ class _DetailPageState extends State<DetailPage> {
             onPressed: () async {
               FirebaseUser user = await FirebaseAuth.instance.currentUser();
               if (record.uid == user.uid) {
+                Navigator.pop(context, true);
+                if(record.imageURL != defaultImg) {
+                  StorageReference ref = await FirebaseStorage.instance
+                      .getReferenceFromUrl(record.imageURL);
+                  ref.delete();
+                }
                 record.reference.delete();
-                StorageReference ref = await FirebaseStorage.instance.getReferenceFromUrl(record.imageURL);
-                ref.delete();
-                Navigator.pop(context);
               }
             },
           )
@@ -65,8 +70,13 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Widget _buildDetail(BuildContext context, DocumentSnapshot data) {
+    if(!data.exists) return Scaffold(
+        body: Container(
+          alignment: Alignment.center,
+          child: Text('Deleted!'),
+        )
+    );
     record = Record.fromSnapshot(data);
-    if (record == null) print('null getted');
     return ListView(
       children: <Widget>[
         Column(

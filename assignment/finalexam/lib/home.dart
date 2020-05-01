@@ -21,7 +21,6 @@ import 'package:intl/intl.dart';
 class HomePage extends StatelessWidget {
   Card _buildGridCards(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
-
     final ThemeData theme = Theme.of(context);
     final NumberFormat formatter = NumberFormat.simpleCurrency(
         locale: Localizations.localeOf(context).toString());
@@ -85,13 +84,29 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildGrid(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return Container(
-      child: GridView.count(
-          crossAxisCount: 2,
-          padding: EdgeInsets.all(16.0),
-          childAspectRatio: 8.0 / 9.0,
-          children:
-              snapshot.map((data) => _buildGridCards(context, data)).toList()),
+    if (snapshot.isEmpty) return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        child: Text('No Item!'),
+      )
+    );
+    int getPrice(DocumentSnapshot data){
+      return data.data['price'];
+    }
+    snapshot.sort((a, b)=>getPrice(a).compareTo(getPrice(b)));
+
+    return Column(
+      children: <Widget>[
+        DropdownMenu(),
+        Expanded(
+          child: GridView.count(
+              crossAxisCount: 2,
+              padding: EdgeInsets.all(16.0),
+              childAspectRatio: 8.0 / 9.0,
+              children: snapshot.map((data) => _buildGridCards(context, data))
+                  .toList()),
+        ),
+      ],
     );
   }
 
@@ -127,6 +142,33 @@ class HomePage extends StatelessWidget {
             return _buildGrid(context, snapshot.data.documents);
           }),
       resizeToAvoidBottomInset: false,
+    );
+  }
+}
+
+class DropdownMenu extends StatefulWidget {
+  _DropdownMenuState createState() => _DropdownMenuState();
+}
+
+class _DropdownMenuState extends State<DropdownMenu> {
+  String value = 'ascending';
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: DropdownButton<String>(
+        value: value,
+        items: <String>['ascending', 'descending'].map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            this.value = value;
+          });
+        },
+      ),
     );
   }
 }
