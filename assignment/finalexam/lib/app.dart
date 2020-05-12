@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:Shrine/additem.dart';
+import 'package:Shrine/profile.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -21,7 +22,6 @@ import 'mod.dart';
 
 // TODO: Convert ShrineApp to stateful widget (104)
 class ShrineApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,6 +30,7 @@ class ShrineApp extends StatelessWidget {
       initialRoute: '/login',
       routes: {
         '/add' : (context) => AddItemPage(),
+        '/profile' : (context) => ProfilePage(),
       },
       onGenerateRoute: _getRoute,
     );
