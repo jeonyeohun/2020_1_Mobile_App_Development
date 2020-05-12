@@ -12,13 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'detail.dart';
 import 'package:Shrine/record.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool isAsc = true;
+  String title = 'ASC';
+
   Card _buildGridCards(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
     final ThemeData theme = Theme.of(context);
@@ -90,16 +99,10 @@ class HomePage extends StatelessWidget {
         alignment: Alignment.center,
         child: Text('No Item!'),
       ));
-    int getPrice(DocumentSnapshot data) {
-      return data.data['price'];
-    }
-
-    if (!DropdownMenu._isAsc)
-      snapshot.sort((a, b) => getPrice(a).compareTo(getPrice(b)));
 
     return Column(
       children: <Widget>[
-        DropdownMenu(),
+        _buildDropdownButton(context),
         Expanded(
           child: GridView.count(
               crossAxisCount: 2,
@@ -113,6 +116,31 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _buildDropdownButton(BuildContext context) {
+    return Container(
+      child: DropdownButton<String>(
+        value: title,
+        items: <String>['ASC', 'DESC'].map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
+        onChanged: (value) {
+          setState(() {
+            if (isAsc) {
+              isAsc = false;
+              title = value;
+            } else {
+              isAsc = true;
+              title = value;
+            }
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,8 +150,8 @@ class HomePage extends StatelessWidget {
             Icons.person,
             semanticLabel: 'menu',
           ),
-          onPressed: () {
-            print('Menu button');
+          onPressed: () async{
+            Navigator.pushNamed(context, '/profile', arguments: await FirebaseAuth.instance.currentUser());
           },
         ),
         title: Text('Main'),
@@ -139,46 +167,20 @@ class HomePage extends StatelessWidget {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection('items').snapshots(),
+          stream: isAsc
+              ? Firestore.instance
+                  .collection('items')
+                  .orderBy('price')
+                  .snapshots()
+              : Firestore.instance
+                  .collection('items')
+                  .orderBy('price', descending: true)
+                  .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return LinearProgressIndicator();
             return _buildGrid(context, snapshot.data.documents);
           }),
       resizeToAvoidBottomInset: false,
-    );
-  }
-}
-
-class DropdownMenu extends StatefulWidget {
-  static bool _isAsc = true;
-  _DropdownMenuState createState() => _DropdownMenuState();
-}
-
-class _DropdownMenuState extends State<DropdownMenu> {
-  String value = 'ascending';
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: DropdownButton<String>(
-        value: value,
-        items: <String>['ascending', 'descending'].map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-        onChanged: (value) {
-          setState(() {
-            if (value == 'acsending') {
-              DropdownMenu._isAsc = true;
-              this.value = value;
-            } else {
-              DropdownMenu._isAsc = false;
-              this.value = value;
-            }
-          });
-        },
-      ),
     );
   }
 }
